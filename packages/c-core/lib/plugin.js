@@ -24,8 +24,8 @@ class Plugin {
             registerPlugins(this, plugins)
         }
     }
-    run(key = this.lifeHook[0], ...arg) {
-       let fns = this.plugins[key] || []
+    run(...arg) {
+       let fns = Object.values(this.plugins).reduce((pre, cur) => pre.concat(cur), []) || []
        let index  = 0
         function next (...overrides) {
             const fn = fns[index++]
@@ -40,32 +40,23 @@ class Plugin {
         return next()
     }
 }
+// const P = new Plugin();
+// function re() {
+//     return {
+//         init(arg, next) {
+//             next(1)
+//         }
+//     }
+// }
+// function fe() {
+//     return {
+//         init(arg, next) {
+//             console.log(arg)
+//             next(1)
+//         }
+//     }
+// }
+// P.registerPlugins([re(), fe()])
+// P.run('')
 
-function re(op, next) {
-    return {
-        type: 'cmd',
-        init(arg, next) {
-            next(1)
-        },
-        load(arg, next) {
-            next(2)
-        }
-    }
-}
-function be(op, next) {
-    return {
-        type: 'cmd',
-        init(arg) {
-            console.log('init', arg)
-        },
-        load(arg) {
-            console.log('init', arg)
-        }
-    }
-}
-const a= new Plugin()
-a.registerPlugins([re(),be()])
-a.run('init', '11')
-a.run('load', '11')
-// console.log(a)
 module.exports = Plugin

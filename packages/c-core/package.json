@@ -22,5 +22,8 @@
   },
   "bugs": {
     "url": "https://github.com/dxiaoqi/cnmeditor/issues"
+  },
+  "dependencies": {
+    "rxjs": "^7.0.1"
   }
 }
