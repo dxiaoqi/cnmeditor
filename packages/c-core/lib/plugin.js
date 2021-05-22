@@ -1,62 +1,51 @@
-
-
 function registerPlugins(base, plugin) {
-    if (!plugin) throw Error('Plugin can not be undefined')
-    const {type, ...control} = plugin
-    base.lifeHook.forEach(hn => {
-        if (control[hn]) {
-            const fns = (base.plugins[hn] = base.plugins[hn] || [])
-            fns.push(control[hn])
-        }
-    })
-}
-class Plugin {
+    if (!plugin) throw Error("Plugin can not be undefined");
+    const { type, ...control } = plugin;
+    base.lifeHook.forEach((hn) => {
+      if (control[hn]) {
+        const fns = (base.plugins[hn] = base.plugins[hn] || []);
+        fns.push(control[hn]);
+      }
+    });
+  }
+  
+  class Plugin {
     constructor(Core) {
-        this.Core = Core;
-        this.plugins = {}
-        this.lifeHook = ['init', 'load', 'tojs', 'render']
-        // ...生命周期定义
+      this.Core = Core;
+      this.plugins = {};
+      // 初始化 获取所有的对象
+      this.lifeHook = ["init", "match", "render"];
+      // ...生命周期定义
     }
     registerPlugins(plugins) {
-        if (plugins instanceof Array) {
-            plugins.forEach(p => {registerPlugins(this, p)})
-        } else {
-            registerPlugins(this, plugins)
-        }
+      if (plugins instanceof Array) {
+        plugins.forEach((p) => {
+          registerPlugins(this, p);
+        });
+      } else {
+        registerPlugins(this, plugins);
+      }
     }
-    run(...arg) {
-       let fns = Object.values(this.plugins).reduce((pre, cur) => pre.concat(cur), []) || []
-       let index  = 0
-        function next (...overrides) {
-            const fn = fns[index++]
-            if (!fn) {
-                return
-            }
-            if (overrides.length) {
-                arg = overrides
-            }
-            fn(...arg, next)
+    run(key, ...args) {
+      const { plugins } = this;
+      const fns = plugins[key] || [];
+      let i = 0;
+  
+      function next(...overrides) {
+        const fn = fns[i++];
+        if (!fn) return overrides;
+  
+        if (overrides.length) {
+          args = overrides;
         }
-        return next()
+  
+        const ret = fn(...args, next);
+        return ret;
+      }
+  
+      return next();
     }
-}
-// const P = new Plugin();
-// function re() {
-//     return {
-//         init(arg, next) {
-//             next(1)
-//         }
-//     }
-// }
-// function fe() {
-//     return {
-//         init(arg, next) {
-//             console.log(arg)
-//             next(1)
-//         }
-//     }
-// }
-// P.registerPlugins([re(), fe()])
-// P.run('')
-
-module.exports = Plugin
+  }
+  
+  export default Plugin;
+  
