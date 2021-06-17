@@ -1,0 +1,6 @@
+type Core = {
+
+}
+type DataService = {
+    
+}
