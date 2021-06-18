@@ -4,19 +4,28 @@
 
 ## Usage
 demo
-https://codesandbox.io/s/lively-surf-cvhmg?file=/src/App.js
+https://codesandbox.io/s/immutable-star-qdniv?file=/core/index.ts:0-2456
 ```
-const cCore = require('c-core');
+import Core from "../core/index";
 demo 
 // TODO: DEMONSTRATE API
 ```
 ### USE 
 ```react
-    Core.setSchema(schema);
-    // 注入整体结构
-    Core.render((store) => {
-        //...render with store
+const _c = new Core(document.getElementById("root"), {
+  renderFlow: (Cur, childrens, curCom) => {
+    // 当前组件，子组件，当前props，设定好主题dom结构渲染，其他交给我们
+    return React.createElement(Cur, {
+      ...curCom,
+      childrens
     });
+  }
+});
+// 注册组件
+_c.registeredComponent("panel", Panel);
+_c.registeredComponent("taxt", Pext);
+// 加载 schema
+const Pa = _c.loadSchema(schema);
 ```
 ### schema格式
 ```js
@@ -28,6 +37,7 @@ demo
     }
 ]
 ```
+-  TODO 校验（实现中） keep alive支持 全局API
 ### UPDATE
 ```
 Core.update(path, name, value)
