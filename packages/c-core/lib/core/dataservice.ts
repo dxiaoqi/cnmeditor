@@ -1,7 +1,7 @@
 // 数据层
 class DataService {
-  base: Core
-  services: Function[]
+  base: Core;
+  services: Function[];
   constructor(base) {
     this.base = base;
     this.services = [];
@@ -10,7 +10,7 @@ class DataService {
     this.services.push(fn.bind(this.base));
   }
   run(data) {
-    const { services } = this
+    const { services } = this;
     return services.reduce((pre, next) => next(pre) || pre, data);
   }
 }
