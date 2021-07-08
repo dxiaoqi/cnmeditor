@@ -4,7 +4,7 @@
 
 ## Usage
 demo
-https://codesandbox.io/s/immutable-star-qdniv?file=/core/index.ts:0-2456
+暂停开放~么么哒
 ```
 import Core from "../core/index";
 demo 
