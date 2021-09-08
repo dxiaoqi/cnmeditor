@@ -1,0 +1,24 @@
+[
+  {
+    "name": "panel",
+    "key": 0,
+    "text": "app",
+    "component": ["Location"],
+    "Location": {"x": 200, "y": 100},
+    "class": "panel",
+    "style": {
+      "width": "600px"
+    },
+    "childrens": [
+      {
+        "name": "taxt",
+        "value": "hello",
+        "childrens": []
+      }, 
+      {
+        "name": "button",
+        "value": "click me"
+      }
+    ]
+  }
+]

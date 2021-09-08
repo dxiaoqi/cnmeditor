@@ -1,6 +1,0 @@
-type Core = {
-
-}
-type DataService = {
-    
-}
